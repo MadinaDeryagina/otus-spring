@@ -3,4 +3,13 @@
        xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="questionLoader" class="otus.deryagina.spring.question.loader.QuestionLoaderCSVImpl">
+        <constructor-arg name="fileName" value="questions-and-answers.csv"/>
+    </bean>
+    <bean id="questionService" class="otus.deryagina.spring.question.questionnaire.QuestionServiceImpl"
+    init-method="build">
+        <constructor-arg name="questionLoader" ref="questionLoader"/>
+
+    </bean>
+
 </beans>

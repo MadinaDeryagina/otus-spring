@@ -1,7 +1,12 @@
 package otus.deryagina.spring.question.loader;
 
-import java.util.Map;
+import otus.deryagina.spring.question.model.Question;
+
+import java.io.IOException;
+import java.util.List;
 
 public interface QuestionLoader {
-    Map<String,String> buildQuestionAnswerMap();
+
+    List<Question> loadQuestionsAnswers() throws IOException;
+
 }
