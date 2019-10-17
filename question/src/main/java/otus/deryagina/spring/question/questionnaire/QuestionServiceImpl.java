@@ -5,14 +5,13 @@ import otus.deryagina.spring.question.exceptions.QuestionsLoadingException;
 import otus.deryagina.spring.question.loader.QuestionLoader;
 import otus.deryagina.spring.question.model.Question;
 
-import java.io.IOException;
 import java.util.*;
 
 
 public class QuestionServiceImpl implements QuestionService {
 
-    private QuestionLoader questionLoader;
-    private Map<String,Question> mapOfQuestions;
+    private final QuestionLoader questionLoader;
+    private final Map<String,Question> mapOfQuestions;
 
     public QuestionServiceImpl(QuestionLoader questionLoader) throws QuestionsLoadingException {
         this.questionLoader = questionLoader;
@@ -34,10 +33,6 @@ public class QuestionServiceImpl implements QuestionService {
         if( !mapOfQuestions.containsKey(question)){
             throw new IllegalArgumentException("There is no such question " + question);
         }
-        if(answer.equalsIgnoreCase(mapOfQuestions.get(question).getCorrectAnswer())){
-            return true;
-        }else{
-            return false;
-        }
+        return answer.equalsIgnoreCase(mapOfQuestions.get(question).getCorrectAnswer());
     }
 }

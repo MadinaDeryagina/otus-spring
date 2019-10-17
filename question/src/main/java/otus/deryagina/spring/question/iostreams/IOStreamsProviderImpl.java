@@ -7,9 +7,10 @@ import java.util.Scanner;
 
 public class IOStreamsProviderImpl implements IOStreamsProvider {
 
-    private InputStream inputStream;
-    private PrintStream printStream;
-    private Scanner scanner;
+    private final InputStream inputStream;
+    private final PrintStream printStream;
+    private final Scanner scanner;
+
     public IOStreamsProviderImpl() {
         this.inputStream = System.in;
         this.printStream = System.out;
@@ -20,7 +21,7 @@ public class IOStreamsProviderImpl implements IOStreamsProvider {
         printStream.println(info);
     }
 
-    public String readNexLineData() {
+    public String readData() {
         return scanner.nextLine();
     }
 }

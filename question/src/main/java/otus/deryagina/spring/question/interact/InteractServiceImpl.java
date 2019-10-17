@@ -7,8 +7,8 @@ import lombok.AllArgsConstructor;
 public class InteractServiceImpl implements InteractService {
 
 
-    AskQuestionsService askQuestionsService;
-    AskUserDataService askUserDataService;
+    private final AskQuestionsService askQuestionsService;
+    private final AskUserDataService askUserDataService;
 
 
     public void startInteraction() {

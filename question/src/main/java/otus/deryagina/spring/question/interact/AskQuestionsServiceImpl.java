@@ -5,14 +5,13 @@ import otus.deryagina.spring.question.iostreams.IOStreamsProvider;
 import otus.deryagina.spring.question.model.Question;
 import otus.deryagina.spring.question.questionnaire.QuestionService;
 
-import java.io.IOException;
 import java.util.List;
 
 @AllArgsConstructor
 public class AskQuestionsServiceImpl implements AskQuestionsService {
 
-    QuestionService questionService;
-    IOStreamsProvider ioStreamsProvider;
+    private final QuestionService questionService;
+    private final IOStreamsProvider ioStreamsProvider;
 
     public void startAskQuestion() {
 
@@ -22,7 +21,7 @@ public class AskQuestionsServiceImpl implements AskQuestionsService {
         for (int i = 0; i < questions.size(); i++) {
             Question question = questions.get(i);
             ioStreamsProvider.printInfo(question.getQuestion());
-            String answer = ioStreamsProvider.readNexLineData();
+            String answer = ioStreamsProvider.readData();
             boolean isCorrectAnswer = questionService.isCorrectAnswer(question.getQuestion(), answer);
             if (isCorrectAnswer) {
                 ioStreamsProvider.printInfo("correct answer");

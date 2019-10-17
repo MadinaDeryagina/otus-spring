@@ -10,8 +10,10 @@ import org.apache.commons.lang3.Validate;
 @Getter
 @ToString
 public class Question {
+
     private final String question;
     private final String correctAnswer;
+
     @JsonCreator
     public Question(@JsonProperty("question") String question,@JsonProperty("correct_answer") String correctAnswer) {
         if (!isValidInput(question, correctAnswer)) {
@@ -21,18 +23,10 @@ public class Question {
         this.correctAnswer = correctAnswer;
     }
     private boolean isValidInput(String question, String correctAnswer){
-        if(isValidString(question)&&isValidString(correctAnswer)){
-            return true;
-        }else {
-            return false;
-        }
+        return isValidString(question)&&isValidString(correctAnswer);
     }
     private boolean isValidString(String inputString){
-        if( inputString==null|| StringUtils.isEmpty(inputString) || StringUtils.isBlank(inputString)){
-            return false;
-        }else {
-            return true;
-        }
+        return inputString!=null && !StringUtils.isEmpty(inputString) && !StringUtils.isBlank(inputString);
     }
 
 }

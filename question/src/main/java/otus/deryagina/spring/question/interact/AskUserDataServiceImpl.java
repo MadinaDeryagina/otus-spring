@@ -7,7 +7,7 @@ import otus.deryagina.spring.question.iostreams.IOStreamsProvider;
 @AllArgsConstructor
 public class AskUserDataServiceImpl implements AskUserDataService {
 
-    IOStreamsProvider ioStreamsProvider;
+    private final IOStreamsProvider ioStreamsProvider;
 
     public String getFullName(int numberOfAttempts) {
         ioStreamsProvider.printInfo("Enter your full name: ");
@@ -20,7 +20,7 @@ public class AskUserDataServiceImpl implements AskUserDataService {
 
     private String validFullName(int numberOfAttempts) {
         for (int i = 0; i < numberOfAttempts; i++) {
-            String fullName = ioStreamsProvider.readNexLineData();
+            String fullName = ioStreamsProvider.readData();
             if ((StringUtils.isEmpty(fullName) || StringUtils.isBlank(fullName))) {
                 if (i != numberOfAttempts - 1) {
                     ioStreamsProvider.printInfo("Your input is empty, please try again. Your have " +
