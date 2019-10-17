@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="questionLoader" class="otus.deryagina.spring.question.loader.QuestionLoaderCSVImpl">
+        <constructor-arg name="fileName" value="questions-and-answers.csv"/>
+    </bean>
+
+    <bean id="ioStreamsProvider" class="otus.deryagina.spring.question.iostreams.IOStreamsProviderImpl"/>
+
+    <bean id="questionService" class="otus.deryagina.spring.question.questionnaire.QuestionServiceImpl">
+        <constructor-arg name="questionLoader" ref="questionLoader"/>
+    </bean>
+    <bean id="askQuestionsService" class="otus.deryagina.spring.question.interact.AskQuestionsServiceImpl">
+        <constructor-arg name="questionService" ref="questionService"/>
+        <constructor-arg name="ioStreamsProvider" ref="ioStreamsProvider"/>
+    </bean>
+    <bean id="askUserDataService" class="otus.deryagina.spring.question.interact.AskUserDataServiceImpl">
+        <constructor-arg name="ioStreamsProvider" ref="ioStreamsProvider"/>
+    </bean>
+    <bean id="interactService" class="otus.deryagina.spring.question.interact.InteractServiceImpl">
+        <constructor-arg name="askUserDataService" ref="askUserDataService"/>
+        <constructor-arg name="askQuestionsService" ref="askQuestionsService"/>
+</bean>
+
+</beans>
