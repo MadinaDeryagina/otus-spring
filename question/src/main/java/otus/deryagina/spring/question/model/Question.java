@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.Validate;
 
 
 @Getter

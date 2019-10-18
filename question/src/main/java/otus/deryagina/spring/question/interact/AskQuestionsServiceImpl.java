@@ -13,13 +13,13 @@ public class AskQuestionsServiceImpl implements AskQuestionsService {
     private final QuestionService questionService;
     private final IOStreamsProvider ioStreamsProvider;
 
+    @Override
     public void startAskQuestion() {
 
         List<Question> questions = questionService.getQuestions();
         ioStreamsProvider.printInfo("There are " + questions.size() + " questions. Let's go");
         int counter = 0;
-        for (int i = 0; i < questions.size(); i++) {
-            Question question = questions.get(i);
+        for (Question question : questions) {
             ioStreamsProvider.printInfo(question.getQuestion());
             String answer = ioStreamsProvider.readData();
             boolean isCorrectAnswer = questionService.isCorrectAnswer(question.getQuestion(), answer);

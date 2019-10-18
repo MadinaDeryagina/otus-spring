@@ -17,10 +17,12 @@ public class IOStreamsProviderImpl implements IOStreamsProvider {
         scanner = new Scanner(inputStream);
     }
 
+    @Override
     public void printInfo(String info) {
         printStream.println(info);
     }
 
+    @Override
     public String readData() {
         return scanner.nextLine();
     }
