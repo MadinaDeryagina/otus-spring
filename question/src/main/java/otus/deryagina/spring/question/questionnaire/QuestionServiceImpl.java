@@ -16,19 +16,21 @@ public class QuestionServiceImpl implements QuestionService {
     public QuestionServiceImpl(QuestionLoader questionLoader) throws QuestionsLoadingException {
         this.questionLoader = questionLoader;
         List<Question> questionList = this.questionLoader.loadQuestionsAnswers();
-        mapOfQuestions= new HashMap<String, Question>();
+        mapOfQuestions= new HashMap<>();
         for (Question currentQuestion :questionList ) {
             mapOfQuestions.put(currentQuestion.getQuestion(),currentQuestion);
         }
     }
 
+    @Override
     public List<Question> getQuestions() {
         if(mapOfQuestions.isEmpty()){
-            return  new ArrayList<Question>();
+            return new ArrayList<>();
         }
-        return Collections.unmodifiableList(new ArrayList<Question>(mapOfQuestions.values()));
+        return Collections.unmodifiableList(new ArrayList<>(mapOfQuestions.values()));
     }
 
+    @Override
     public boolean isCorrectAnswer(String question, String answer){
         if( !mapOfQuestions.containsKey(question)){
             throw new IllegalArgumentException("There is no such question " + question);
