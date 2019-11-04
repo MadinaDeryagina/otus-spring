@@ -1,10 +1,13 @@
 package otus.deryagina.spring.question.iostreams;
 
 
+import org.springframework.stereotype.Service;
+
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.Scanner;
 
+@Service
 public class IOStreamsProviderImpl implements IOStreamsProvider {
 
     private final InputStream inputStream;
