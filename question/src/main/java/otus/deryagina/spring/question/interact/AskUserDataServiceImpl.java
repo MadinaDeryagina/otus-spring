@@ -2,11 +2,10 @@ package otus.deryagina.spring.question.interact;
 
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import otus.deryagina.spring.question.iostreams.IOStreamsProvider;
+import otus.deryagina.spring.question.localizer.LocalizationService;
 
-import java.util.Locale;
 
 @AllArgsConstructor
 @Service
@@ -14,16 +13,14 @@ public class AskUserDataServiceImpl implements AskUserDataService {
 
     private final IOStreamsProvider ioStreamsProvider;
 
-    private final MessageSource messageSource;
-
-    private final Locale locale;
+    private final LocalizationService localizationService;
 
     @Override
     public String getFullName(int numberOfAttempts) {
-        ioStreamsProvider.printInfo(messageSource.getMessage("enter.fullname", null, locale));
+        ioStreamsProvider.printInfo(localizationService.getLocalizedMessage("enter.fullname", null));
         String fullName = validFullName(numberOfAttempts);
         if (fullName != null) {
-            ioStreamsProvider.printInfo(messageSource.getMessage("hello.user", new String[]{fullName},locale));
+            ioStreamsProvider.printInfo(localizationService.getLocalizedMessage("hello.user", new String[]{fullName}));
         }
         return fullName;
     }
@@ -33,8 +30,8 @@ public class AskUserDataServiceImpl implements AskUserDataService {
             String fullName = ioStreamsProvider.readData();
             if ((StringUtils.isEmpty(fullName) || StringUtils.isBlank(fullName))) {
                 if (i != numberOfAttempts - 1) {
-                    ioStreamsProvider.printInfo(messageSource.getMessage("retry.enter.name",
-                            new String[]{String.valueOf(numberOfAttempts - i - 1)}, locale));
+                    ioStreamsProvider.printInfo(localizationService.getLocalizedMessage("retry.enter.name",
+                            new String[]{String.valueOf(numberOfAttempts - i - 1)}));
                 } else {
                     return null;
                 }

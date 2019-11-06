@@ -18,18 +18,19 @@ public class ResourceBundleTest {
     @DisplayName("all l10n have same keys in bundle")
     void allL10onsHaveSameKeys() {
         ClassLoader classLoader = getClass().getClassLoader();
-        List<File> bundleFiles = new ArrayList<>();
         String defaultBundleName = null;
         Properties defaultProperties = new Properties();
         Map<String, Properties> mapFileNameAndKeys = new HashMap<>();
         // consider all files in i18n directory
-        File folder = new File
-                (classLoader.getResource("i18n/").getFile());
-        for (final File fileEntry : folder.listFiles()) {
-            if (!fileEntry.isDirectory()) {
-                bundleFiles.add(fileEntry);
-            }
+        File folder = null;
+        try {
+            folder = new File
+                    (classLoader.getResource("i18n/").getFile());
+        } catch (NullPointerException npe) {
+            fail("no i18n / folder");
         }
+        List<File> bundleFiles = getBundleFiles(folder);
+
         for (File currentFile : bundleFiles) {
             FileInputStream currentFileInput = null;
             try {
@@ -42,7 +43,7 @@ public class ResourceBundleTest {
                 currentProperties.load(currentFileInput);
                 String currentFileName = currentFile.getName();
                 mapFileNameAndKeys.put(currentFileName, currentProperties);
-                if (currentFileName.contains("en") && currentFileName.contains("US")) {
+                if (currentFileName.contains("en_US")) {
                     defaultBundleName = currentFileName;
                     defaultProperties = currentProperties;
                 }
@@ -50,7 +51,10 @@ public class ResourceBundleTest {
                 fail(e.getMessage());
             }
         }
-        int count = 0;
+        checkPropertyKeysEquality(defaultBundleName, defaultProperties, mapFileNameAndKeys);
+    }
+
+    private void checkPropertyKeysEquality(String defaultBundleName, Properties defaultProperties, Map<String, Properties> mapFileNameAndKeys) {
         for (String currentFileName :
                 mapFileNameAndKeys.keySet()) {
             Properties currentProperties = mapFileNameAndKeys.get(currentFileName);
@@ -64,8 +68,17 @@ public class ResourceBundleTest {
                 fail("there are  no keys " + keysOfCurrentNotContainedInDefault.toString() + " in bundle " + defaultBundleName);
 
             }
-
         }
+    }
+
+    private List<File> getBundleFiles(File folder) {
+        List<File> bundleFiles = new ArrayList<>();
+        for (final File fileEntry : folder.listFiles()) {
+            if (!fileEntry.isDirectory()) {
+                bundleFiles.add(fileEntry);
+            }
+        }
+        return bundleFiles;
     }
 
     private List<String> getKeysOfFirstNotContainedInSecond(Properties firstProperties, Properties secondProperties) {
