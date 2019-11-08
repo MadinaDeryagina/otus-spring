@@ -1,8 +1,10 @@
 package otus.deryagina.spring.question.interact;
 
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
 
+@Service
 @AllArgsConstructor
 public class InteractServiceImpl implements InteractService {
 

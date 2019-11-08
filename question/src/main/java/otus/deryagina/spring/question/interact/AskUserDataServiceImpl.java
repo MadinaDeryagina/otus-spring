@@ -2,19 +2,25 @@ package otus.deryagina.spring.question.interact;
 
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Service;
 import otus.deryagina.spring.question.iostreams.IOStreamsProvider;
+import otus.deryagina.spring.question.localizer.LocalizationService;
+
 
 @AllArgsConstructor
+@Service
 public class AskUserDataServiceImpl implements AskUserDataService {
 
     private final IOStreamsProvider ioStreamsProvider;
 
+    private final LocalizationService localizationService;
+
     @Override
     public String getFullName(int numberOfAttempts) {
-        ioStreamsProvider.printInfo("Enter your full name: ");
+        ioStreamsProvider.printInfo(localizationService.getLocalizedMessage("enter.fullname", null));
         String fullName = validFullName(numberOfAttempts);
-        if(fullName != null) {
-            ioStreamsProvider.printInfo("Hello " + fullName);
+        if (fullName != null) {
+            ioStreamsProvider.printInfo(localizationService.getLocalizedMessage("hello.user", new String[]{fullName}));
         }
         return fullName;
     }
@@ -24,8 +30,8 @@ public class AskUserDataServiceImpl implements AskUserDataService {
             String fullName = ioStreamsProvider.readData();
             if ((StringUtils.isEmpty(fullName) || StringUtils.isBlank(fullName))) {
                 if (i != numberOfAttempts - 1) {
-                    ioStreamsProvider.printInfo("Your input is empty, please try again. Your have " +
-                            String.valueOf(numberOfAttempts - i - 1) + " attempts. Enter your full name again");
+                    ioStreamsProvider.printInfo(localizationService.getLocalizedMessage("retry.enter.name",
+                            new String[]{String.valueOf(numberOfAttempts - i - 1)}));
                 } else {
                     return null;
                 }
